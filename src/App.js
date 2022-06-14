@@ -1,24 +1,35 @@
-import logo from './logo.svg';
-import './App.css';
+import React, { useState } from 'react';
+import Phones from './Phones';
+import Buttons from './Buttons';
+import products from './data';
+
+const categories = new Set(products.map(item=> item.category));
+const buttons = ['All', ...categories];
+// console.log(buttons)
+
+
 
 function App() {
+  const [phones, setPhones] = useState(products)
+
+  const filterPhones = (category) =>{
+    if(category === 'All'){
+      setPhones(products);
+    }
+    else{
+      const newPhones = products.filter(phone => phone.category === category);
+      setPhones(newPhones)
+    }
+  }
+
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
+    <>
+    <header>
+      <h1> Phones </h1>
+    </header>
+    <Buttons buttons={buttons} filterPhones={filterPhones}/>
+    <Phones phone= {phones}/>
+    </>
   );
 }
 
